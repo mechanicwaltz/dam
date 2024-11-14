@@ -189,6 +189,8 @@ public class JSONToXMLConverter {
             System.out.println("Error al leer el archivo JSON o escribir el archivo XML: " + e.getMessage());
         }
     }
+
+
 ```
 ### Ejemplo de uso: 
 ```
@@ -198,6 +200,124 @@ public class JSONToXMLConverter {
     }
 }
 ```
+## Conversor genérico de XML a JSON: 
+
+```
+import org.json.JSONObject;
+import org.json.XML;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
+public class XmlToJsonConverter {
+
+    public static void main(String[] args) {
+        String rutaFicheroXML = "src/main/resources/example.xml";
+        String rutaFicheroJSON = "src/main/resources/example.json";
+        convertirXMLaJSON(rutaFicheroXML, rutaFicheroJSON);
+    }
+
+    public static void convertirXMLaJSON(String rutaFicheroXML, String rutaFicheroJSON) {
+        try {
+            // Leer el archivo XML
+            String contenidoXML = new String(Files.readAllBytes(Paths.get(rutaFicheroXML)));
+
+            // Convertir el contenido en un objeto JSONObject
+            JSONObject jsonObject = XML.toJSONObject(contenidoXML);
+
+            // Escribir el JSON en el fichero
+            Files.write(Paths.get(rutaFicheroJSON), jsonObject.toString(4).getBytes());
+
+            // Mostrar el JSON en la terminal
+            System.out.println("Contenido del JSON generado:");
+            System.out.println(jsonObject.toString(4));
+
+        } catch (IOException e) {
+            System.out.println("Error al leer el archivo XML o escribir el archivo JSON: " + e.getMessage());
+        }
+    }
+}
+```
+
+## Pasar JSON a TXT:
+
+```
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
+public class JsonToTxtConverter {
+
+    public static void convertirJSONaTXT(String rutaFicheroJSON, String rutaFicheroTXT) {
+        try {
+            // Leer el archivo JSON
+            String contenidoJSON = new String(Files.readAllBytes(Paths.get(rutaFicheroJSON)));
+            JSONObject jsonObject = new JSONObject(contenidoJSON);
+
+            // Crear un FileWriter para escribir en el archivo de texto
+            try (FileWriter writer = new FileWriter(rutaFicheroTXT)) {
+                // Recorrer las claves del JSONObject
+                for (String key : jsonObject.keySet()) {
+                    Object value = jsonObject.get(key);
+                    writer.write(key + ": " + value.toString() + "\n");
+                }
+            }
+
+            System.out.println("Archivo TXT generado correctamente.");
+
+        } catch (IOException e) {
+            System.out.println("Error al leer el archivo JSON o escribir el archivo TXT: " + e.getMessage());
+        }
+    }
+}
+```
+
+
+## Pasar de TXT a JSON:
+```
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.List;
+
+public class TxtToJsonConverter {
+
+    public static void convertirTXTaJSON(String rutaFicheroTXT, String rutaFicheroJSON) {
+        try {
+            // Leer el archivo de texto
+            List<String> lineas = Files.readAllLines(Paths.get(rutaFicheroTXT));
+            JSONObject jsonObject = new JSONObject();
+
+            // Recorrer cada línea del archivo de texto
+            for (String linea : lineas) {
+                // Dividir la línea en clave y valor
+                String[] partes = linea.split(": ");
+                if (partes.length == 2) {
+                    String key = partes[0].trim();
+                    String value = partes[1].trim();
+                    jsonObject.put(key, value);
+                }
+            }
+
+            // Escribir el JSON en el archivo
+            Files.write(Paths.get(rutaFicheroJSON), jsonObject.toString(4).getBytes());
+
+            System.out.println("Archivo JSON generado correctamente.");
+
+        } catch (IOException e) {
+            System.out.println("Error al leer el archivo TXT o escribir el archivo JSON: " + e.getMessage());
+        }
+    }
+}
+```
+
 
 
 
