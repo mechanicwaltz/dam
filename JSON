@@ -1,6 +1,1 @@
-# Leer archivos JSON:
 
-Para leer un archivo JSON, primero obtenemos el contenido del archivo como una cadena:
-```public static String leerArchivo(String rutaArchivo) throws IOException {
-    return new String(Files.readAllBytes(Paths.get(rutaArchivo)));
-}```
