@@ -146,4 +146,4 @@ if __name__ == '__main__':
 3. **`show()`**: Muestra la ventana en pantalla.  
 4. **`exec()`**: Inicia el bucle de eventos.  
 
----
+
