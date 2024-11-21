@@ -220,3 +220,227 @@ class Corredor implements Runnable {
 
 ```
 ---
+
+# Ejercicio 9: Hilos con prioridad
+Crea un programa donde se creen 5 hilos con diferentes prioridades.
+Cada hilo debe imprimir su prioridad y un mensaje indicando que está ejecutándose.
+Observa cómo la prioridad afecta el orden de ejecución de los hilos.
+
+```
+package org.example;
+
+public class Principal {
+    public static void main(String[] args) {
+        // Crear 5 hilos con diferentes prioridades
+        for (int i = 1; i <= 5; i++) {
+            // Crear un hilo con la tarea PrioridadTarea y establecer su prioridad
+            Thread hilo = new Thread(new PrioridadTarea(i));
+            hilo.setPriority(i);
+            hilo.start();
+        }
+    }
+}
+
+class PrioridadTarea implements Runnable {
+    private int prioridad;
+
+    // Constructor que recibe la prioridad del hilo
+    public PrioridadTarea(int prioridad) {
+        this.prioridad = prioridad;
+    }
+
+    @Override
+    public void run() {
+        // Imprimir la prioridad del hilo y un mensaje indicando que está ejecutándose
+        System.out.println("Hilo con prioridad " + prioridad + " está ejecutándose.");
+    }
+}
+```
+----
+
+# Ejercicio 10: Productor-Consumidor
+Implementa el problema del productor-consumidor usando una cola compartida.
+Crea un hilo productor que genere números aleatorios y los coloque en la cola.
+Crea un hilo consumidor que tome los números de la cola y los imprima.
+Usa los métodos wait() y notify() para coordinar la producción y el consumo.
+
+```
+package org.example;
+
+import java.util.LinkedList;
+import java.util.Queue;
+
+public class Principal {
+    public static void main(String[] args) {
+        // Crear una instancia de la cola compartida
+        ColaCompartida colaCompartida = new ColaCompartida();
+
+        // Crear el hilo productor y el hilo consumidor
+        Thread productor = new Thread(new Productor(colaCompartida));
+        Thread consumidor = new Thread(new Consumidor(colaCompartida));
+
+        // Iniciar ambos hilos
+        productor.start();
+        consumidor.start();
+    }
+}
+
+class ColaCompartida {
+    private final Queue<Integer> cola = new LinkedList<>();
+    private final int LIMITE = 10;
+    private final Object bloqueo = new Object();
+
+    // Método para producir un valor y añadirlo a la cola
+    public void producir(int valor) throws InterruptedException {
+        synchronized (bloqueo) {
+            // Esperar si la cola está llena
+            while (cola.size() == LIMITE) {
+                bloqueo.wait();
+            }
+            // Añadir el valor a la cola
+            cola.add(valor);
+            // Notificar al consumidor que hay un nuevo valor en la cola
+            bloqueo.notify();
+        }
+    }
+
+    // Método para consumir un valor de la cola
+    public int consumir() throws InterruptedException {
+        synchronized (bloqueo) {
+            // Esperar si la cola está vacía
+            while (cola.isEmpty()) {
+                bloqueo.wait();
+            }
+            // Obtener el valor de la cola
+            int valor = cola.poll();
+            // Notificar al productor que hay espacio en la cola
+            bloqueo.notify();
+            return valor;
+        }
+    }
+}
+
+class Productor implements Runnable {
+    private final ColaCompartida colaCompartida;
+
+    // Constructor que recibe la cola compartida
+    public Productor(ColaCompartida colaCompartida) {
+        this.colaCompartida = colaCompartida;
+    }
+
+    @Override
+    public void run() {
+        try {
+            // Producir 20 valores aleatorios
+            for (int i = 0; i < 20; i++) {
+                int valor = (int) (Math.random() * 100);
+                colaCompartida.producir(valor);
+                System.out.println("Producido: " + valor);
+                // Dormir el hilo por 500 milisegundos
+                Thread.sleep(500);
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+}
+
+class Consumidor implements Runnable {
+    private final ColaCompartida colaCompartida;
+
+    // Constructor que recibe la cola compartida
+    public Consumidor(ColaCompartida colaCompartida) {
+        this.colaCompartida = colaCompartida;
+    }
+
+    @Override
+    public void run() {
+        try {
+            // Consumir 20 valores de la cola
+            for (int i = 0; i < 20; i++) {
+                int valor = colaCompartida.consumir();
+                System.out.println("Consumido: " + valor);
+                // Dormir el hilo por 1000 milisegundos
+                Thread.sleep(1000);
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+}
+```
+
+---
+
+# Dilema de los filósofos
+
+```
+package org.example;
+
+import java.util.concurrent.Semaphore;
+
+public class Principal {
+    public static void main(String[] args) {
+        Filosofo[] filosofos = new Filosofo[5];
+        Semaphore[] tenedores = new Semaphore[5];
+
+        for (int i = 0; i < tenedores.length; i++) {
+            tenedores[i] = new Semaphore(1);
+        }
+
+        for (int i = 0; i < filosofos.length; i++) {
+            filosofos[i] = new Filosofo(i, tenedores[i], tenedores[(i + 1) % tenedores.length]);
+            new Thread(filosofos[i]).start();
+        }
+    }
+}
+
+class Filosofo implements Runnable {
+    private final int id;
+    private final Semaphore tenedorIzquierdo;
+    private final Semaphore tenedorDerecho;
+
+    public Filosofo(int id, Semaphore tenedorIzquierdo, Semaphore tenedorDerecho) {
+        this.id = id;
+        this.tenedorIzquierdo = tenedorIzquierdo;
+        this.tenedorDerecho = tenedorDerecho;
+    }
+
+    @Override
+    public void run() {
+        try {
+            while (true) {
+                pensar();
+                recogerTenedores();
+                comer();
+                soltarTenedores();
+            }
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void pensar() throws InterruptedException {
+        System.out.println("Filósofo " + id + " está pensando.");
+        Thread.sleep((int) (Math.random() * 1000));
+    }
+
+    private void recogerTenedores() throws InterruptedException {
+        tenedorIzquierdo.acquire();
+        tenedorDerecho.acquire();
+        System.out.println("Filósofo " + id + " recogió los tenedores.");
+    }
+
+    private void comer() throws InterruptedException {
+        System.out.println("Filósofo " + id + " está comiendo.");
+        Thread.sleep((int) (Math.random() * 1000));
+    }
+
+    private void soltarTenedores() {
+        tenedorIzquierdo.release();
+        tenedorDerecho.release();
+        System.out.println("Filósofo " + id + " soltó los tenedores.");
+    }
+}
+```
+---
