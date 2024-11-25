@@ -1,0 +1,140 @@
+body {
+    background: url(fondorojo.png) no-repeat center center fixed;
+    background-size: cover;
+    background-color: #ffcccc;
+    color: #990000;
+    font-family: 'Press Start 2P', cursive;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    padding: 20px;
+}
+
+
+
+.centered-header {
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+header {
+    text-align: center;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 1200px;
+    margin-bottom: 20px;
+}
+
+h1, h2, h3, h4 {
+    text-align: center;
+    text-shadow: #000000;
+    color: #cc0000;
+    font-family: 'Press Start 2P', cursive;
+    
+}
+
+.buttons {
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+    width: 100%; 
+    margin: 0 auto; 
+    gap: 10px;
+}
+
+button {
+    
+    background-color: #ff6666;
+    color: #ffffff;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    align-items: center;
+    
+}
+
+button:hover {
+    background-color: #00b7ff;
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Cambia de 'center' a 'flex-start' */
+    margin-left: 50px; /* Ajusta el margen izquierdo */
+    width: 100%;
+    max-width: 1200px;
+    padding: 20px; /* Espaciado interno adicional */
+}
+
+section {
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+.intro {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.intro img {
+    max-width: 100%;
+    height: auto;
+    margin-top: 10px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+table, th, td {
+    border: 1px solid #990000;
+}
+
+th, td {
+    padding: 10px;
+    text-align: left;
+}
+
+th {
+    background-color: #cc0000;
+    color: #ffffff;
+}
+
+td {
+    background-color: #ffdddd;
+}
+
+.icon-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+}
+
+.icon-item {
+    text-align: center;
+}
+
+.icon-item img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+}
+footer {
+    font-family: 'Press Start 2P', cursive;
+    text-align: center;
+    margin-top: 20px;
+}
+footer img {
+    width: 70px;
+    height: auto;
+}

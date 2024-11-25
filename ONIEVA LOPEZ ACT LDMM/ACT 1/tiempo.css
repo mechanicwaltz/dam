@@ -1,0 +1,106 @@
+@font-face {
+    font-family: "Nova-Square";
+    src: url('Nova-Square/Nova-Square.woff');
+}
+
+body {
+    font-family: "Nova-Square", sans-serif;
+    background-color: #e6f0fc;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    width: 80%;
+    max-width: 600px;
+    margin: 30px auto;
+    padding: 20px;
+    background-color: #B4D2F7;
+    border: 1px solid #000;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.titulo-principal {
+    font-size: 1.5rem;
+    color: #000;
+    margin-bottom: 20px;
+}
+
+.titulo-principal i {
+    color: red;
+    margin: 0 10px;
+}
+
+.dias {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.dia-card {
+    flex: 1;
+    background-color: #fff;
+    border: 2px solid #000;
+    border-radius: 10px;
+    overflow: hidden;
+    text-align: center;
+    padding: 5px;
+}
+
+.dia {
+    background-color: #C7C7C7;
+    font-weight: bold;
+    padding: 5px 0;
+    border-bottom: 1px solid #000;
+}
+
+.icono-tiempo {
+    font-size: 1.5rem;
+    padding: 10px 0;
+    color: #000;
+}
+
+.temp-max, .temp-min {
+    font-size: 1rem;
+    font-weight: bold;
+    color: #fff;
+    padding: 5px 0;
+}
+
+.temp-max {
+    background-color: #F40000;
+}
+
+.temp-min {
+    background-color: #35B4EA;
+}
+
+
+#martes .temp-max {
+    background-color: #ED5350;
+}
+
+#miercoles .temp-max {
+    background-color: #E56F60;
+}
+
+#jueves .temp-max {
+    background-color: #E56F60;
+}
+
+#viernes .temp-max {
+    background-color: #ED5350;
+}
+
+#lunes .temp-min, #martes .temp-min {
+    background-color: #35B4EA;
+}
+
+#miercoles .temp-min {
+    background-color: #0769BF;
+}
+
+#jueves .temp-min, #viernes .temp-min {
+    background-color: #0300C1;
+}
