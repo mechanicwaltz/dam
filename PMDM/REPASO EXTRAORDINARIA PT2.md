@@ -1,6 +1,5 @@
-Aquí tienes el contenido formateado en **Markdown**, ideal para documentación o apuntes:
 
-````markdown
+
 # 🔄 ViewPager2 y Fragmentos en Android
 
 ## 📱 ¿Qué es ViewPager?
